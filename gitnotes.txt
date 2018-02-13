@@ -1,0 +1,224 @@
+GITNOTES - TERRAFORM
+
+##################################################################################################################################
+LONG VERSION
+##################################################################################################################################
+
+-- basic workflow
+https://gist.github.com/blackfalcon/8428401
+
+-- initial repo created in github with simple readme and example file, we want to add the first step of the terraform example that was done outside of GITHUB
+amaslows@AMASLOWS-US MINGW64 /d/GIT
+$  git clone https://github.com/amaslows/terraform
+Cloning into 'terraform'...
+remote: Counting objects: 6, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 6 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT
+$ cd terraform
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git pull origin master
+From https://github.com/amaslows/terraform
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git checkout -b add-aws-example
+Switched to a new branch 'add-aws-example'
+M       example.tf
+
+-- Copied in all terraform files from first step in getting started guide to the terraform GIT folder here
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git status
+On branch add-aws-example
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+        modified:   example.tf
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .terraform/
+        terraform.tfstate
+no changes added to commit (use "git add" and/or "git commit -a")
+
+-- This will just add all in root dir
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git add .
+warning: LF will be replaced by CRLF in example.tf.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in .terraform/plugins/windows_amd64/lock.json.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in terraform.tfstate.
+The file will have its original line endings in your working directory.
+
+-- This will add all and delete any deleted files if you are removing anything
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git add --all
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git commit -m "add aws compute terraform example"
+[add-aws-example ffcc54f] add aws compute terraform example
+ 4 files changed, 79 insertions(+)
+ create mode 100644 .terraform/plugins/windows_amd64/lock.json
+ create mode 100644 .terraform/plugins/windows_amd64/terraform-provider-aws_v1.9.0_x4.exe
+ create mode 100644 terraform.tfstate
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git push origin add-aws-example
+Counting objects: 9, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (9/9), 15.10 MiB | 645.00 KiB/s, done.
+Total 9 (delta 0), reused 0 (delta 0)
+remote: warning: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+remote: warning: See http://git.io/iEPt8g for more information.
+remote: warning: File .terraform/plugins/windows_amd64/terraform-provider-aws_v1.9.0_x4.exe is 65.66 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+To https://github.com/amaslows/terraform
+ * [new branch]      add-aws-example -> add-aws-example
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git pull origin master
+From https://github.com/amaslows/terraform
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git merge --no-ff add-aws-example
+Already up-to-date.
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git checkout add-aws-example
+Already on 'add-aws-example'
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git pull origin add-aws-example
+From https://github.com/amaslows/terraform
+ * branch            add-aws-example -> FETCH_HEAD
+Already up-to-date.
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git pull origin master
+From https://github.com/amaslows/terraform
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git merge --no-ff add-aws-example
+Merge made by the 'recursive' strategy.
+ .terraform/plugins/windows_amd64/lock.json         |   3 +
+ .../terraform-provider-aws_v1.9.0_x4.exe           | Bin 0 -> 68845568 bytes
+ example.tf                                         |   2 +
+ terraform.tfstate                                  |  74 +++++++++++++++++++++
+ 4 files changed, 79 insertions(+)
+ create mode 100644 .terraform/plugins/windows_amd64/lock.json
+ create mode 100644 .terraform/plugins/windows_amd64/terraform-provider-aws_v1.9.0_x4.exe
+ create mode 100644 terraform.tfstate
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git branch -d add-aws-example
+Deleted branch add-aws-example (was ffcc54f).
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git push origin --delete add-aws-example
+To https://github.com/amaslows/terraform
+ - [deleted]         add-aws-example
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git push origin
+Counting objects: 10, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (10/10), 15.10 MiB | 565.00 KiB/s, done.
+Total 10 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), done.
+remote: warning: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+remote: warning: See http://git.io/iEPt8g for more information.
+remote: warning: File .terraform/plugins/windows_amd64/terraform-provider-aws_v1.9.0_x4.exe is 65.66 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+To https://github.com/amaslows/terraform
+   cd80fde..a580886  master -> master
+
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+
+
+
+##################################################################################################################################
+SHORT VERSION
+##################################################################################################################################
+-- basic workflow
+https://gist.github.com/blackfalcon/8428401
+amaslows@AMASLOWS-US MINGW64 /d/GIT
+-- initial clone off main repo
+$  git clone https://github.com/amaslows/terraform
+amaslows@AMASLOWS-US MINGW64 /d/GIT
+$ cd terraform
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+-- get on master
+$ git pull origin master
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+-- start feature branch
+$ git checkout -b add-aws-example
+-- add files, make changes, etc
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git add .
+	OR
+-- add files and remove deleted files	
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git add --all
+-- commit with comment
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git commit -m "add aws compute terraform example"
+-- push the branch
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git push origin add-aws-example
+-- After peer-reviewed reviewer merges it in
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (add-aws-example)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+-- Merge branch into master
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git merge --no-ff add-aws-example
+Merge made by the 'recursive' strategy.
+ .terraform/plugins/windows_amd64/lock.json         |   3 +
+ .../terraform-provider-aws_v1.9.0_x4.exe           | Bin 0 -> 68845568 bytes
+ example.tf                                         |   2 +
+ terraform.tfstate                                  |  74 +++++++++++++++++++++
+ 4 files changed, 79 insertions(+)
+ create mode 100644 .terraform/plugins/windows_amd64/lock.json
+ create mode 100644 .terraform/plugins/windows_amd64/terraform-provider-aws_v1.9.0_x4.exe
+ create mode 100644 terraform.tfstate
+-- delete the feature branch
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git branch -d add-aws-example
+Deleted branch add-aws-example (was ffcc54f).
+-- push delete back to repo
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git push origin --delete add-aws-example
+To https://github.com/amaslows/terraform
+ - [deleted]         add-aws-example
+-- push updated master back to repo
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+$ git push origin
+Counting objects: 10, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (10/10), 15.10 MiB | 565.00 KiB/s, done.
+Total 10 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), done.
+remote: warning: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+remote: warning: See http://git.io/iEPt8g for more information.
+remote: warning: File .terraform/plugins/windows_amd64/terraform-provider-aws_v1.9.0_x4.exe is 65.66 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+To https://github.com/amaslows/terraform
+   cd80fde..a580886  master -> master
+-- Done
+amaslows@AMASLOWS-US MINGW64 /d/GIT/terraform (master)
+
